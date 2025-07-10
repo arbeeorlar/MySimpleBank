@@ -6,10 +6,22 @@ INSERT INTO account (
          )
     RETURNING *;
 
--- name: GetAuthor :one
-SELECT * FROM authors
+-- name: GetAccount :one
+SELECT * FROM account
 WHERE id = $1 LIMIT 1;
 
--- name: ListAuthors :many
-SELECT * FROM authors
-ORDER BY name;
+-- name: ListAccounts :many
+SELECT * FROM account
+ORDER BY id LIMIT $1
+OFFSET $2;
+
+
+-- name: UpdateAccount :one
+UPDATE account
+set owner = $2
+WHERE id = $1
+RETURNING *;
+
+-- name: DeleteAccount :exec
+DELETE FROM account
+WHERE id = $1;
